@@ -24,15 +24,45 @@ html ---> view
 
     a)One way data binding (1 direction)
 
-      ts->html   or   html->ts
+        ts->html   or   html->ts
 
-    a.1)Component to view
+      a.1)Component to view
 
-        i)String interpolation (1 direction) - {{expression}}
-        ii)Property Binding - [attribute name]="property" 
+          i)String interpolation (1 direction) - {{expression}}
+          ii)Property Binding - [attribute name]="property" 
 
-    a.2)view to component  
+      a.2)view to component  
 
-        i)Event binding (1 direction) - (event_name)="function_name()";
-        ii)event binding using $event (event_name)="function_name($event)"
+          i)Event binding (1 direction) - (event_name)="function_name()";
+          ii)event binding using $event (event_name)="function_name($event)"
 
+    b)Two way data binding (Two - direction) - ts->html, html-> ts
+      
+      i)ngModel - formsModule in app.module.ts
+       - [(ngModel)]="property_name"
+
+2)Angular Routing
+
+To set path or a component
+
+{
+    path:"value",component:class_name
+}
+
+eg:
+login
+{
+    path:'',component:LoginComponent
+},
+
+3) Dependency Injection
+
+To Share data between two dependend classes
+
+eg:Router class - navigateByaURL is used to navigate the component
+
+4) Angular Services
+
+To hold redundant data
+
+ng g s service_name
