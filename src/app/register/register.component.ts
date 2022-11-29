@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 
@@ -13,16 +14,27 @@ export class RegisterComponent implements OnInit {
     pswd="";
     uname="";
 
-  constructor(private router:Router,private ds:DataService) { }
+    //register model
+    registerForm=this.fb.group({//group
+      uname:[''],
+      acno:[''],
+      pswd:['']
+    })
+    //control -  ts file model link to html file
+
+  constructor(private router:Router,private ds:DataService,private fb:FormBuilder) { }
 
   ngOnInit(): void {
   }
 
   register(){
     // alert('Register clicked')
-    var username=this.uname;
-    var password=this.pswd;
-    var acno=this.acno;
+
+    console.log(this.registerForm);
+    
+    var username=this.registerForm.value.uname;
+    var password=this.registerForm.value.pswd;
+    var acno=this.registerForm.value.acno;
     const result=this.ds.register(acno,username,password);
     if(result){
       alert('Register Suuccessful')

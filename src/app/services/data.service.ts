@@ -8,6 +8,9 @@ export class DataService {
     //current user
   currentUser="";
 
+  //current acno
+  currentAcno="";
+
   constructor() { }
 
 
@@ -42,6 +45,7 @@ export class DataService {
     if(acno in userDetails){
       if(pswd==userDetails[acno]['password']){
         this.currentUser=userDetails[acno]['username']
+        this.currentAcno=acno
         return true;
       }
       else{
@@ -60,8 +64,8 @@ export class DataService {
       if(pswd==userDetails[acno]['password']){
         userDetails[acno]['balance']+=amount;
         userDetails[acno]['transaction'].push({
-          type:'Credit',
-          amount:amount
+          Type:'Credit',
+          Amount:amount
         })
         console.log(userDetails);
         
@@ -86,6 +90,10 @@ export class DataService {
       if(pswd==userDetails[acno]['password']){
         if(userDetails[acno]['balance']>=amount){
           userDetails[acno]['balance']-=amount;
+          userDetails[acno]['transaction'].push({
+            Type:'Debit',
+            Amount: amount
+          })
           return userDetails[acno]['balance']
         }
         else{
@@ -102,5 +110,8 @@ export class DataService {
       alert('Invalid userdetails')
       return false;
     }
+  }
+  getTransaction(acno:any){
+    return this.userDetails[acno]['transaction']
   }
 }

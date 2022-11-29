@@ -66,3 +66,16 @@ eg:Router class - navigateByaURL is used to navigate the component
 To hold redundant data
 
 ng g s service_name
+
+5)Angular Directives - To manipulate DOM
+
+    a)Component Directives(array)
+    b)Structural Directives(table)
+        1)*ngFor
+6)Angular Forms
+    a)Template Driven(first design html page and can't do validation)
+    b)Model Driven Forms(First design model in ts file, Easy validation methods)
+        -Advanced validation
+        1)Reactive Forms
+          form group,array,control
+          we can directly add validations via importing Reactive Form Module

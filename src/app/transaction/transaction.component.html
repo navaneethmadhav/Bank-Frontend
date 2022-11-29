@@ -8,14 +8,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th>Credit</th>
-            <td>1000</td>
+        <tr *ngFor="let t of transaction">
+            <th>{{t.Type}}</th>
+            <td>{{t.Amount}}</td>
         </tr>
-        <tr>
+        <!-- <tr>
             <th>Debit</th>
             <td>1000</td>
-        </tr>
+        </tr> -->
     </tbody>
 </table>
 
