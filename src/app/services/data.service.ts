@@ -1,4 +1,10 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+//globally http header object
+const options={
+  headers:new HttpHeaders()
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +17,8 @@ export class DataService {
   //current acno
   currentAcno="";
 
-  constructor() {
-    this.getDetails();
+  constructor( private http:HttpClient) {
+    // this.getDetails();
    }
 
   //saveDetails() - to store data into the local storage
@@ -29,17 +35,17 @@ export class DataService {
     }
   }
 
-  getDetails(){
-    if(this.userDetails){
-      this.userDetails=JSON.parse(localStorage.getItem('DataBase')||'')
-    }
-    if(this.currentAcno){
-      this.currentAcno=JSON.parse(localStorage.getItem('currentAcno')||'')
-    }
-    if(this.currentUser){
-      this.currentUser=JSON.parse(localStorage.getItem('currentUser')||'')
-    }
-  }
+  // getDetails(){
+  //   if(this.userDetails){
+  //     this.userDetails=JSON.parse(localStorage.getItem('DataBase')||'')
+  //   }
+  //   if(this.currentAcno){
+  //     this.currentAcno=JSON.parse(localStorage.getItem('currentAcno')||'')
+  //   }
+  //   if(this.currentUser){
+  //     this.currentUser=JSON.parse(localStorage.getItem('currentUser')||'')
+  //   }
+  // }
 
   //database
   userDetails:any={
@@ -48,101 +54,160 @@ export class DataService {
     1002:{acno:1002,username:'arun',password:1002, balance:1000,transaction:[]}
   }
   register(acno:any,username:any,password:any){
-    let userDetails=this.userDetails
-    if(acno in userDetails){
-      return false;
+
+    const data={
+      acno,
+      password,
+      username,
     }
-    else{
-      userDetails[acno]={
-        acno:acno,
-        username:username,
-        password:password,
-        balance:0,
-        transaction:[]
-      }
-      console.log(userDetails);
-      this.saveDetails();
-      return true;
-    }
+
+    return this.http.post('http://localhost:3000/register',data)
+
+    // let userDetails=this.userDetails
+    // if(acno in userDetails){
+    //   return false;
+    // }
+    // else{
+    //   userDetails[acno]={
+    //     acno:acno,
+    //     username:username,
+    //     password:password,
+    //     balance:0,
+    //     transaction:[]
+    //   }
+    //   console.log(userDetails);
+    //   this.saveDetails();
+    //   return true;
+    // }
   }
 
   login(acno:any,pswd:any){
+
+    const data={
+      acno,
+      pswd
+    }
+
+    return this.http.post('http://localhost:3000/login',data)
     
-    let userDetails = this.userDetails
-    if(acno in userDetails){
-      if(pswd==userDetails[acno]['password']){
-        this.currentUser=userDetails[acno]['username']
-        this.currentAcno=acno
-        this.saveDetails();
-        return true;
-      }
-      else{
-        return false;
-      }
+    // let userDetails = this.userDetails
+    // if(acno in userDetails){
+    //   if(pswd==userDetails[acno]['password']){
+    //     this.currentUser=userDetails[acno]['username']
+    //     this.currentAcno=acno
+    //     this.saveDetails();
+    //     return true;
+    //   }
+    //   else{
+    //     return false;
+    //   }
+    // }
+    // else{
+    //   return false;
+    // }
+  }
+
+  getToken(){
+    //fetch token from local storage
+    const token = JSON.parse(localStorage.getItem('token')||'')
+    //append token inside the header
+
+    let headers= new HttpHeaders()
+
+    if(token){
+      options.headers=headers.append('x-access-token',token)
     }
-    else{
-      return false;
-    }
+    return options //to get token
   }
 
   deposit(acno:any,pswd:any,amt:any){
-    let userDetails = this.userDetails;
-    var amount=parseInt(amt)
-    if(acno in userDetails){
-      if(pswd==userDetails[acno]['password']){
-        userDetails[acno]['balance']+=amount;
-        userDetails[acno]['transaction'].push({
-          Type:'Credit',
-          Amount:amount
-        })
-        console.log(userDetails);
-        this.saveDetails();
 
-        return userDetails[acno]['balance']
-      }
-      else{
-        alert('Password incorrect')
-        return false;
-      }
+
+    const data={
+      acno,
+      pswd,
+      amount:amt
     }
-    else{
-      alert('Invalid Userdetails')
-      return false;
-    }
+    return this.http.post('http://localhost:3000/deposit',data,this.getToken())
+
+
+    // let userDetails = this.userDetails;
+    // var amount=parseInt(amt)
+    // if(acno in userDetails){
+    //   if(pswd==userDetails[acno]['password']){
+    //     userDetails[acno]['balance']+=amount;
+    //     userDetails[acno]['transaction'].push({
+    //       Type:'Credit',
+    //       Amount:amount
+    //     })
+    //     console.log(userDetails);
+    //     this.saveDetails();
+
+    //     return userDetails[acno]['balance']
+    //   }
+    //   else{
+    //     alert('Password incorrect')
+    //     return false;
+    //   }
+    // }
+    // else{
+    //   alert('Invalid Userdetails')
+    //   return false;
+    // }
   }
 
   withdraw(acno:any,pswd:any,amt:any){
-    let userDetails=this.userDetails;
-    var amount=parseInt(amt)
-    if(acno in userDetails){
-      if(pswd==userDetails[acno]['password']){
-        if(userDetails[acno]['balance']>=amount){
-          userDetails[acno]['balance']-=amount;
-          userDetails[acno]['transaction'].push({
-            Type:'Debit',
-            Amount: amount
-          })
-          console.log(userDetails);
-          this.saveDetails();
+
+    const data={
+      acno,
+      pswd,
+      amount:amt
+    }
+    return this.http.post('http://localhost:3000/withdraw',data,this.getToken())
+    // let userDetails=this.userDetails;
+    // var amount=parseInt(amt)
+    // if(acno in userDetails){
+    //   if(pswd==userDetails[acno]['password']){
+    //     if(userDetails[acno]['balance']>=amount){
+    //       userDetails[acno]['balance']-=amount;
+    //       userDetails[acno]['transaction'].push({
+    //         Type:'Debit',
+    //         Amount: amount
+    //       })
+    //       console.log(userDetails);
+    //       this.saveDetails();
           
-          return userDetails[acno]['balance']
-        }
-        else{
-          alert('Insufficient Balance')
-          return false;
-        }
-      }
-      else{
-        alert('Password incorrect')
-        return false;
-      }
-    }
-    else{
-      alert('Invalid userdetails')
-      return false;
-    }
+    //       return userDetails[acno]['balance']
+    //     }
+    //     else{
+    //       alert('Insufficient Balance')
+    //       return false;
+    //     }
+    //   }
+    //   else{
+    //     alert('Password incorrect')
+    //     return false;
+    //   }
+    // }
+    // else{
+    //   alert('Invalid userdetails')
+    //   return false;
+    // }
   }
   getTransaction(acno:any){
-    return this.userDetails[acno]['transaction']
+
+    const data={
+      acno
+    }
+    return this.http.post('http://localhost:3000/transaction',data,this.getToken())
+
+    // return this.userDetails[acno]['transaction']
   }
+
+  //delete
+
+  deleteAcc(acno:any){
+    return this.http.delete('http://localhost:3000/deleteAcc/'+acno)
+  }
+
 }

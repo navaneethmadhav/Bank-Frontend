@@ -1,4 +1,4 @@
-<button class="btn btn-warning" style="float: right;" (click)="logout()">Logout</button>
+<button class="btn btn-warning" style="float: right; margin-left: 25px;" (click)="logout()">Logout</button>
 <button class="btn btn-danger" style="float: right;" (click)="delete()">Delete</button>
 
 
@@ -7,7 +7,7 @@
     <a routerLink="/transaction">View Transaction History</a>
     <h4>System Date and Time:{{sdate | date:'short'}}</h4>
     <!-- child component -->
-    <app-delete [item]="acno" (onCancel)="onCancel()"></app-delete>
+    <app-delete [item]="acno" (onCancel)="onCancel()" (onDelete)="onDelete($event)"></app-delete>
     <!-- (onCancel) - usedefined event -->
 
     <div class="child" [ngClass]="acno? 'style1':''">

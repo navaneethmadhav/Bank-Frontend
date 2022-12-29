@@ -13,7 +13,7 @@
 
                 <div *ngIf="this.registerForm.get('acno')?.errors && this.registerForm.get('acno')?.touched" style="color: red;">Invalid Account Number</div>
 
-                <input formControlName="pswd" type="text" placeholder="Password" name="pswd" id="reg_pswd" size="45" style="height: 50px; border-radius: 20px" class="mb-4"><br>
+                <input formControlName="pswd" type="password" placeholder="Password" name="pswd" id="reg_pswd" size="45" style="height: 50px; border-radius: 20px" class="mb-4"><br>
 
                 <div *ngIf="this.registerForm.get('pswd')?.errors && this.registerForm.get('pswd')?.touched" style="color: red;">Invalid Password</div>
 
