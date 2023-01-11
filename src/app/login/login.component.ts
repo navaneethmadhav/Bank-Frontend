@@ -15,12 +15,12 @@ export class LoginComponent implements OnInit {
   account="Enter your Acc no. here";
 
   acno=' ';
-  pswd=' ';
+  password=' ';
 
   //register model
   loginForm=this.fb.group({//group
     acno:['',[Validators.required,Validators.pattern('[0-9]*')]],//array
-    pswd:['',[Validators.required,Validators.pattern('[0-9a-zA-Z]*')]]
+    password:['',[Validators.required,Validators.pattern('[0-9a-zA-Z]*')]]
   })
   
   //(3rd execution)
@@ -51,8 +51,8 @@ export class LoginComponent implements OnInit {
   }
 
   pswdChange(event:any){
-    this.pswd=event.target.value;
-    console.log(this.pswd);
+    this.password=event.target.value;
+    console.log(this.password);
     
   }
 
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm);//value
     
     var acno=this.loginForm.value.acno; //1000
-    var pswd=this.loginForm.value.pswd; //1000
+    var pswd=this.loginForm.value.password; //1000
     // var userDetails=this.ds.userDetails;
 
     if (this.loginForm.valid) {

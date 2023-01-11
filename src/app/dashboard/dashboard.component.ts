@@ -58,19 +58,26 @@ export class DashboardComponent implements OnInit {
     // console.log(this.depositForm);
     
     var acno=this.depositForm.value.acno;
-    var pswd=this.depositForm.value.pswd;
+    var password=this.depositForm.value.pswd;
     var amount=this.depositForm.value.amount;
-    if (this.depositForm.valid) {
 
-      // console.log(this.depositForm.get('acno')?.errors);
-      
-      this.ds.deposit(acno,pswd,amount)
-      .subscribe((result:any)=>{
-        alert(result.message)
-      },
-      result=>{
-        alert(result.error.message)
-      })
+    let currentAcno=JSON.parse(localStorage.getItem('currentAcno')||'');
+    if(currentAcno==acno){
+      if (this.depositForm.valid) {
+
+        // console.log(this.depositForm.get('acno')?.errors);
+        
+        this.ds.deposit(acno,password,amount)
+        .subscribe((result:any)=>{
+          alert(result.message)
+        },
+        result=>{
+          alert(result.error.message)
+        })
+      }
+    }
+    else{
+      alert('Invalid UserDetails');
     }
   }
   //     if(result){
@@ -93,15 +100,19 @@ export class DashboardComponent implements OnInit {
     var acno=this.withdrawForm.value.acno1;
     var pswd=this.withdrawForm.value.pswd1;
     var amount=this.withdrawForm.value.amount1;
-    if(this.withdrawForm.valid){
 
-      this.ds.withdraw(acno,pswd,amount)
-      .subscribe((result:any)=>{
+    let currentAcno=JSON.parse(localStorage.getItem('currentAcno')||'');
+
+    if(currentAcno==acno){
+      if(this.withdrawForm.valid){
+
+        this.ds.withdraw(acno,pswd,amount)
+        .subscribe((result:any)=>{
         alert(result.message)
-      },
-      result=>{
-        alert(result.error.message)
-      })
+        },
+        result=>{
+          alert(result.error.message)
+        })
 
     //   console.log(this.withdrawForm.get('acno1')?.errors);
       
@@ -117,7 +128,9 @@ export class DashboardComponent implements OnInit {
     // }
     // else{
     //   alert('Invalid Details')
+      }
     }
+    
     
   }
 

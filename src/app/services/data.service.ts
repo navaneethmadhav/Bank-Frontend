@@ -81,11 +81,11 @@ export class DataService {
     // }
   }
 
-  login(acno:any,pswd:any){
+  login(acno:any,password:any){
 
     const data={
       acno,
-      pswd
+      password
     }
 
     return this.http.post('http://localhost:3000/login',data)
@@ -120,12 +120,12 @@ export class DataService {
     return options //to get token
   }
 
-  deposit(acno:any,pswd:any,amt:any){
+  deposit(acno:any,password:any,amt:any){
 
 
     const data={
       acno,
-      pswd,
+      password,
       amount:amt
     }
     return this.http.post('http://localhost:3000/deposit',data,this.getToken())
